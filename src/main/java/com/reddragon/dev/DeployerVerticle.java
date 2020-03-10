@@ -3,8 +3,10 @@ package com.reddragon.dev;
 import com.reddragon.dev.recievers.AppRouter;
 import io.vertx.core.AbstractVerticle;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 class DeployerVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
