@@ -1,12 +1,10 @@
 package com.reddragon.dev;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.reddragon.dev.guice.GuiceInjector;
+import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,9 +22,6 @@ public class Main{
 
     @Autowired
     private DeployerVerticle deployerVerticle;
-
-    @Inject
-    Injector injector;
 
     Main(){
         this.vertx=Vertx.vertx();
