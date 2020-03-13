@@ -1,6 +1,6 @@
 package com.reddragon.dev;
 
-import com.reddragon.dev.recievers.AppRouter;
+import com.reddragon.dev.routehandlers.AppRouter;
 import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.AbstractVerticle;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.reddragon.dev.recievers;
+package com.reddragon.dev.routehandlers;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -63,6 +63,8 @@ public class AppRouter extends AbstractVerticle {
         JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
 
         JsonObject fetchedDocument = jsonElement.getAsJsonObject();
+
+        System.out.println(storeRepo.findAll());
 
         response.end("----json fetched ----<<"+fetchedDocument);
     }

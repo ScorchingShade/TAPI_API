@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface StoreRepo extends MongoRepository<ReceiptModel,String> {
-
+/*
     //To get multiple results, use list e.g List<ReceiptModel> findAllByIdEquals
-    ReceiptModel findByIdEquals(String id);
+    ReceiptModel findByIdEquals(String id);*/
 }
