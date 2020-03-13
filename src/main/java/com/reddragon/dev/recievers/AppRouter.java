@@ -12,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ResourceBundle;
 
+/**
+ * @author ankush
+ * AppRouter is used to route all api calls to respective handlers
+ */
 @Slf4j
 @NoArgsConstructor
 public class AppRouter extends AbstractVerticle {
@@ -42,6 +46,10 @@ public class AppRouter extends AbstractVerticle {
     }
 
 
+    /***
+     * Using the generateHandler to handle generate receipt api call
+     * @param routingContext
+     */
     private void generateHandler(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
         response.setChunked(true);

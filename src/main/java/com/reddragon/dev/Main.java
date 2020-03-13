@@ -10,6 +10,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import javax.annotation.PostConstruct;
 
+/***
+ * @author ankush
+ * bootstrap vertx application
+ */
 @Slf4j
 @SpringBootApplication
 @EnableMongoRepositories
@@ -18,18 +22,22 @@ public class Main{
 
     private Vertx vertx;
 
+    //Autowiring to create a bean of deployerVerticle
     @Autowired
     private DeployerVerticle deployerVerticle;
 
+    //Using IOC to initialize vertx
     Main(){
         this.vertx=Vertx.vertx();
     }
-
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
+    /***
+     * Added postConstruct method to deploy all the verticles
+     */
     @PostConstruct
     public void deployer(){
         vertx.deployVerticle(deployerVerticle, ar->{
