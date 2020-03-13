@@ -1,5 +1,8 @@
 package com.reddragon.dev.recievers;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
@@ -54,11 +57,13 @@ public class AppRouter extends AbstractVerticle {
         HttpServerResponse response = routingContext.response();
         response.setChunked(true);
         response.putHeader("content-type", "text/plain");
-        try {
-            System.out.println("showing data+++++++++++"+storeRepo.findAll());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        response.end("Hello World from Vert.x-Web! " + routingContext.getBodyAsString());
+
+        /*System.out.println("Hello World from Vert.x-Web! " + routingContext.getBodyAsString());*/
+
+        JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
+
+        JsonObject fetchedDocument = jsonElement.getAsJsonObject();
+
+        response.end("----json fetched ----<<"+fetchedDocument);
     }
 }
