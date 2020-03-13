@@ -1,10 +1,8 @@
 package com.reddragon.dev;
 
-import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

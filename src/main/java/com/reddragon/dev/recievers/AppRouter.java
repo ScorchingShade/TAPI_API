@@ -7,20 +7,23 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ResourceBundle;
 
 @Slf4j
+@NoArgsConstructor
 public class AppRouter extends AbstractVerticle {
 
     ResourceBundle bundle = ResourceBundle.getBundle("application");
     int port = Integer.parseInt(bundle.getString("vertx.port"));
 
-    @Autowired
-    StoreRepo storeRepo;
+    public StoreRepo storeRepo;
 
+    public AppRouter(StoreRepo storeRepo){
+        this.storeRepo=storeRepo;
+    }
 
     @Override
     public void start() throws Exception {
