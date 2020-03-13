@@ -3,12 +3,7 @@ package com.reddragon.dev.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * @author ankush
- * Mongo collection model for store_info collection
- * uses a builder model
- */
-@Document(collection = "store_info")
+@Document(collection = "receiptmodel")
 public class ReceiptModel {
 
     @Id
