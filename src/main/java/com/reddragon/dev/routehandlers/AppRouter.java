@@ -3,6 +3,10 @@ package com.reddragon.dev.routehandlers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.reddragon.dev.dao.ReceiptCreateDao;
+import com.reddragon.dev.guice.GuiceInjector;
 import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
@@ -66,6 +70,17 @@ public class AppRouter extends AbstractVerticle {
 
         System.out.println(storeRepo.findAll());
 
-        response.end("----json fetched ----<<"+fetchedDocument);
+        try {
+            Injector injector = Guice.createInjector(new GuiceInjector());
+            ReceiptCreateDao receiptCreateDao = injector.getInstance(ReceiptCreateDao.class);
+
+            receiptCreateDao.saveDocumentToMongo(fetchedDocument,storeRepo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.end("----json fetched ---->>"+fetchedDocument);
+
+
+
     }
 }
