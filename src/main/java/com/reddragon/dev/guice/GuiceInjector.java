@@ -1,10 +1,7 @@
 package com.reddragon.dev.guice;
 
 import com.google.inject.AbstractModule;
-import com.reddragon.dev.dao.ReceiptCreateDao;
-import com.reddragon.dev.dao.ReceiptCreateDaoImpl;
-import com.reddragon.dev.dao.ReceiptReadDao;
-import com.reddragon.dev.dao.ReceiptReadDaoImpl;
+import com.reddragon.dev.dao.*;
 
 /**
  * @author ankush guice injector class
@@ -15,6 +12,7 @@ public class GuiceInjector extends AbstractModule {
 
         bind(ReceiptCreateDao.class).to(ReceiptCreateDaoImpl.class).asEagerSingleton();
         bind(ReceiptReadDao.class).to(ReceiptReadDaoImpl.class).asEagerSingleton();
+        bind(ReceiptDeleteDao.class).to(ReceiptDeleteDaoImpl.class).asEagerSingleton();
 
     }
 }

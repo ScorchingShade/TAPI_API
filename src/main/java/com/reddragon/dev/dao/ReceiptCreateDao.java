@@ -8,5 +8,5 @@ import com.reddragon.dev.repository.StoreRepo;
  * abstracted Create receipt operation
  */
 public interface ReceiptCreateDao {
-    void saveDocumentToMongo(JsonObject jsonObject, StoreRepo storeRepo);
+    String saveDocumentToMongo(JsonObject jsonObject, StoreRepo storeRepo);
 }

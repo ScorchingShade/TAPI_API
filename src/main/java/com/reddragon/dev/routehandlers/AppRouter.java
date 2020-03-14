@@ -6,9 +6,13 @@ import com.google.gson.JsonParser;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.reddragon.dev.dao.ReceiptCreateDao;
+import com.reddragon.dev.dao.ReceiptDeleteDao;
+import com.reddragon.dev.dao.ReceiptReadDao;
 import com.reddragon.dev.guice.GuiceInjector;
 import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
@@ -29,6 +33,7 @@ public class AppRouter extends AbstractVerticle {
 
     ResourceBundle bundle = ResourceBundle.getBundle("application");
     int port = Integer.parseInt(bundle.getString("vertx.port"));
+    String mongoResponse="";
 
     public StoreRepo storeRepo;
 
@@ -49,10 +54,42 @@ public class AppRouter extends AbstractVerticle {
         router.post("/generate").handler(this::generateHandler);
 
         //Handler for read ops
+        router.post("/fetchData").handler(BodyHandler.create());
         router.post("/fetchData").handler(this::readHandler);
+
+        //Handler for delete ops
+        router.post("/deleteData").handler(BodyHandler.create());
+        router.post("/deleteData").handler(this::deleteHandler);
 
         server.requestHandler(router).listen(port);
 
+    }
+
+    /***
+     * delete using id
+     * @param routingContext
+     */
+    private void deleteHandler(RoutingContext routingContext) {
+        HttpServerResponse response = routingContext.response();
+        response.setChunked(true);
+        response.putHeader("content-type", "text/plain");
+
+        JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
+
+        JsonObject fetchedDocument = jsonElement.getAsJsonObject();
+
+        String idParam = fetchedDocument.get("id").toString().trim().replaceAll("\"","");
+
+        try {
+            Injector injector = Guice.createInjector(new GuiceInjector());
+            ReceiptDeleteDao receiptDeleteDao = injector.getInstance(ReceiptDeleteDao.class);
+            mongoResponse=receiptDeleteDao.deleteReceiptById(idParam, storeRepo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.end("----json fetched ----<<" + mongoResponse);
+
+        response.end(mongoResponse);
     }
 
 
@@ -65,12 +102,27 @@ public class AppRouter extends AbstractVerticle {
         response.setChunked(true);
         response.putHeader("content-type", "text/plain");
 
-        response.end("shirahoshi");
+        JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
+
+        JsonObject fetchedDocument = jsonElement.getAsJsonObject();
+
+        String idParam = fetchedDocument.get("id").toString().trim().replaceAll("\"","");
+
+        try {
+            Injector injector = Guice.createInjector(new GuiceInjector());
+            ReceiptReadDao receiptReadDao = injector.getInstance(ReceiptReadDao.class);
+            mongoResponse = receiptReadDao.fetchDataById(idParam, storeRepo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.end("----json fetched ----<<" + mongoResponse);
+
+        response.end(mongoResponse);
     }
 
 
     /***
-     * Using the generateHandler to handle generate receipt api call
+     * Using the generateHandler to handle generate(upsert) receipt api call
      * @param routingContext
      */
     private void generateHandler(RoutingContext routingContext) {
@@ -89,12 +141,12 @@ public class AppRouter extends AbstractVerticle {
         try {
             Injector injector = Guice.createInjector(new GuiceInjector());
             ReceiptCreateDao receiptCreateDao = injector.getInstance(ReceiptCreateDao.class);
+            mongoResponse=receiptCreateDao.saveDocumentToMongo(fetchedDocument, storeRepo);
 
-            receiptCreateDao.saveDocumentToMongo(fetchedDocument, storeRepo);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.end("----json fetched ---->>" + fetchedDocument);
+        response.end((mongoResponse));
 
 
     }

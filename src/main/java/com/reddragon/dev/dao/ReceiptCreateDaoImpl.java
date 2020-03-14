@@ -11,13 +11,16 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public class ReceiptCreateDaoImpl implements ReceiptCreateDao {
+    String UPSERT_SUCCESS=">>Data saved successfully";
+    String UPSERT_FAILURE="--Sorry could not save your data, please ensure all the parameters are added successfully";
 
     /***
      * Save to mongo
      * @param jsonObject
      * @param storeRepo
      */
-    public void saveDocumentToMongo(JsonObject jsonObject, StoreRepo storeRepo){
+    public String saveDocumentToMongo(JsonObject jsonObject, StoreRepo storeRepo){
+        String response="";
         try {
         ReceiptModel receiptModel = new ReceiptModel(
                 jsonObject.get("id").toString().trim().replaceAll("\"",""),
@@ -29,11 +32,14 @@ public class ReceiptCreateDaoImpl implements ReceiptCreateDao {
                 jsonObject.get("receiver").toString().trim().replaceAll("\"","")
         );
 
-
             storeRepo.save(receiptModel);
-            System.out.println(">>Data saved successfully");
+            response=UPSERT_SUCCESS;
+            System.out.println(UPSERT_SUCCESS);
+            return response;
         } catch (Exception e) {
-            System.out.println("--Sorry could not save your data, please ensure all the parameters are added successfully");
+            response=UPSERT_FAILURE;
+            System.out.println(UPSERT_FAILURE);
+            return response;
         }
 
     }
