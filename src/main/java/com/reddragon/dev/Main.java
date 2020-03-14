@@ -1,11 +1,8 @@
 package com.reddragon.dev;
 
-import com.reddragon.dev.model.ReceiptModel;
-import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.Vertx;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,8 +10,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import javax.annotation.PostConstruct;
 
-
-
+/***
+ * @author ankush
+ * bootstrap vertx application
+ */
 @Slf4j
 @SpringBootApplication
 @EnableMongoRepositories
@@ -23,25 +22,25 @@ public class Main{
 
     private Vertx vertx;
 
-    @Autowired
-    private StoreRepo storeRepo;
-
+    //Autowiring to create a bean of deployerVerticle
     @Autowired
     private DeployerVerticle deployerVerticle;
 
+    //Using IOC to initialize vertx
     Main(){
         this.vertx=Vertx.vertx();
     }
 
-
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
-
     }
 
+    /***
+     * Added postConstruct method to deploy all the verticles
+     */
     @PostConstruct
     public void deployer(){
-        vertx.deployVerticle(new DeployerVerticle(), ar->{
+        vertx.deployVerticle(deployerVerticle, ar->{
             if(ar.succeeded()){
                 System.out.println("--Vertx application running successfully, verticles deployed...");
             }

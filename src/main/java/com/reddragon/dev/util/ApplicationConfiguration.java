@@ -6,6 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 
+/**
+ * @author ankush
+ * The class is needed for springboot configurations
+ */
 @Configuration
 public class ApplicationConfiguration {
 

@@ -1,4 +1,9 @@
 com\reddragon\dev\DeployerVerticle.class
-com\reddragon\dev\ApplicationConfiguration.class
-com\reddragon\dev\recievers\AppRouter.class
+com\reddragon\dev\model\ReceiptModel.class
+com\reddragon\dev\util\ApplicationConfiguration.class
+com\reddragon\dev\routehandlers\AppRouter.class
+com\reddragon\dev\repository\StoreRepo.class
 com\reddragon\dev\Main.class
+com\reddragon\dev\dao\ReceiptCreateDaoImpl.class
+com\reddragon\dev\guice\GuiceInjector.class
+com\reddragon\dev\dao\ReceiptCreateDao.class

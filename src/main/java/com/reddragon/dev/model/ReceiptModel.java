@@ -3,7 +3,11 @@ package com.reddragon.dev.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "receiptmodel")
+/***
+ * @author ankush
+ * receipt model
+ */
+@Document(collection = "store_info")
 public class ReceiptModel {
 
     @Id
@@ -14,6 +18,16 @@ public class ReceiptModel {
     private String payment_type;
     private String date;
     private String receiver;
+
+    public ReceiptModel(String id, String name, String address, String amount, String payment_type, String date, String receiver) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.amount = amount;
+        this.payment_type = payment_type;
+        this.date = date;
+        this.receiver = receiver;
+    }
 
     public String getId() {
         return id;
