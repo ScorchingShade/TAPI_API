@@ -32,8 +32,8 @@ public class AppRouter extends AbstractVerticle {
 
     public StoreRepo storeRepo;
 
-    public AppRouter(StoreRepo storeRepo){
-        this.storeRepo=storeRepo;
+    public AppRouter(StoreRepo storeRepo) {
+        this.storeRepo = storeRepo;
     }
 
     @Override
@@ -48,8 +48,24 @@ public class AppRouter extends AbstractVerticle {
         router.post("/generate").handler(BodyHandler.create());
         router.post("/generate").handler(this::generateHandler);
 
+        //Handler for read ops
+        router.post("/fetchData").handler(this::readHandler);
+
         server.requestHandler(router).listen(port);
 
+    }
+
+
+    /***
+     * using the readHandler to handle get receipt by id api call
+     * @param routingContext
+     */
+    private void readHandler(RoutingContext routingContext) {
+        HttpServerResponse response = routingContext.response();
+        response.setChunked(true);
+        response.putHeader("content-type", "text/plain");
+
+        response.end("shirahoshi");
     }
 
 
@@ -74,12 +90,11 @@ public class AppRouter extends AbstractVerticle {
             Injector injector = Guice.createInjector(new GuiceInjector());
             ReceiptCreateDao receiptCreateDao = injector.getInstance(ReceiptCreateDao.class);
 
-            receiptCreateDao.saveDocumentToMongo(fetchedDocument,storeRepo);
+            receiptCreateDao.saveDocumentToMongo(fetchedDocument, storeRepo);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.end("----json fetched ---->>"+fetchedDocument);
-
+        response.end("----json fetched ---->>" + fetchedDocument);
 
 
     }
