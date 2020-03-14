@@ -21,6 +21,9 @@ import io.vertx.ext.web.handler.BodyHandler;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -78,12 +81,15 @@ public class AppRouter extends AbstractVerticle {
 
         JsonObject fetchedDocument = jsonElement.getAsJsonObject();
 
-        String idParam = fetchedDocument.get("id").toString().trim().replaceAll("\"","");
+        String idParam = fetchedDocument.get("id").toString().trim().replaceAll("\"","").replace("[","").replace("]","");
+        List<String> idList= new ArrayList<String>(Arrays.asList(idParam.replaceAll("/[/]","").split(",")));
+
+
 
         try {
             Injector injector = Guice.createInjector(new GuiceInjector());
             ReceiptDeleteDao receiptDeleteDao = injector.getInstance(ReceiptDeleteDao.class);
-            mongoResponse=receiptDeleteDao.deleteReceiptById(idParam, storeRepo);
+            mongoResponse=receiptDeleteDao.deleteReceiptById(idList, storeRepo);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,23 +107,26 @@ public class AppRouter extends AbstractVerticle {
         HttpServerResponse response = routingContext.response();
         response.setChunked(true);
         response.putHeader("content-type", "text/plain");
+        List<String> mongoResponse =new ArrayList<>();
 
         JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
 
         JsonObject fetchedDocument = jsonElement.getAsJsonObject();
 
-        String idParam = fetchedDocument.get("id").toString().trim().replaceAll("\"","");
+        String idParam = fetchedDocument.get("id").toString().trim().replaceAll("\"","").replace("[","").replace("]","");
+        List<String> idList= new ArrayList<String>(Arrays.asList(idParam.replaceAll("/[/]","").split(",")));
+
 
         try {
             Injector injector = Guice.createInjector(new GuiceInjector());
             ReceiptReadDao receiptReadDao = injector.getInstance(ReceiptReadDao.class);
-            mongoResponse = receiptReadDao.fetchDataById(idParam, storeRepo);
+            mongoResponse = receiptReadDao.fetchDataById(idList, storeRepo);
         } catch (Exception e) {
             e.printStackTrace();
         }
         response.end("----json fetched ----<<" + mongoResponse);
 
-        response.end(mongoResponse);
+        response.end(mongoResponse.toString());
     }
 
 

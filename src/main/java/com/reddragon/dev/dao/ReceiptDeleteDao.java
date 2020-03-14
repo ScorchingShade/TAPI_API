@@ -2,7 +2,9 @@ package com.reddragon.dev.dao;
 
 import com.reddragon.dev.repository.StoreRepo;
 
+import java.util.List;
+
 public interface ReceiptDeleteDao {
 
-    String deleteReceiptById(String id, StoreRepo storeRepo);
+    String deleteReceiptById(List<String> id, StoreRepo storeRepo);
 }
