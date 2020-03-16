@@ -1,5 +1,5 @@
 # TAPI API  
-TAPI API or The Awesome Powerloader Integrator API is a web-based Vert.x API aimed at providing receipting solutions. It uses MongoDB cloud cluster to create seamless db connectivity experience.
+TAPI API or "The Asynchronous Point Integrator" API is a web-based Vert.x API aimed at providing receipting solutions. It uses MongoDB cloud cluster to create seamless db connectivity experience.
 TAPI API uses vert.x technology coupled with spring boot architecture to give you fast, scalable, concurrent and reliable experience.
 
 ---
