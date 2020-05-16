@@ -88,13 +88,13 @@ public class ReceiptModel {
     @Override
     public String toString() {
         return "ReceiptModel{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", amount='" + amount + '\'' +
-                ", payment_type='" + payment_type + '\'' +
-                ", date='" + date + '\'' +
-                ", receiver='" + receiver + '\'' +
+                "\"id\":\"" + id + '\"' +
+                ", \"name\":\"" + name + '\"' +
+                ", \"address\":\"" + address + '\"' +
+                ", \"amount\":\"" + amount + '\"' +
+                ", \"payment_type\":\"" + payment_type + '\"' +
+                ", \"date\":\"" + date + '\"' +
+                ", \"receiver\":\"" + receiver + '\"' +
                 '}';
     }
 }
