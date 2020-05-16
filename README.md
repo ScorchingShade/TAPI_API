@@ -16,7 +16,7 @@ The format for the post data needs to be as:
 
 ---
 
-## “delteData” API call: 
+## “deleteData” API call: 
 `The data needs to be sent in post-call. 
 The format for the post data needs to be as:
 {
