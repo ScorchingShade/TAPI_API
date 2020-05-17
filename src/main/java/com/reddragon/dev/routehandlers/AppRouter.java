@@ -14,18 +14,17 @@ import com.reddragon.dev.repository.StoreRepo;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author ankush
@@ -52,6 +51,31 @@ public class AppRouter extends AbstractVerticle {
         HttpServer server = vertx.createHttpServer();
 
         Router router = Router.router(vertx);
+
+
+        Set<String> allowedHeaders = new HashSet<>();
+        allowedHeaders.add("x-requested-with");
+        allowedHeaders.add("Access-Control-Allow-Origin");
+        allowedHeaders.add("origin");
+        allowedHeaders.add("Content-Type");
+        allowedHeaders.add("accept");
+        allowedHeaders.add("X-PINGARUNER");
+
+        Set<HttpMethod> allowedMethods = new HashSet<>();
+        allowedMethods.add(HttpMethod.GET);
+        allowedMethods.add(HttpMethod.POST);
+        allowedMethods.add(HttpMethod.OPTIONS);
+        /*
+         * these methods aren't necessary for this sample,
+         * but you may need them for your projects
+         */
+        allowedMethods.add(HttpMethod.DELETE);
+        allowedMethods.add(HttpMethod.PATCH);
+        allowedMethods.add(HttpMethod.PUT);
+
+        router.route().handler(CorsHandler.create("*").allowedHeaders(allowedHeaders).allowedMethods(allowedMethods));
+
+
 
         //Body Handler is needed to fetch the body of a post request.
         router.post("/generate").handler(BodyHandler.create());
@@ -169,7 +193,9 @@ public class AppRouter extends AbstractVerticle {
     private void generateHandler(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
         response.setChunked(true);
-        response.putHeader("content-type", "text/plain");
+        response.putHeader("content-type", "application/json");
+        response.putHeader("'Access-Control-Allow-Origin", "*");
+        response.putHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 
         /*System.out.println("Hello World from Vert.x-Web! " + routingContext.getBodyAsString());*/
 
