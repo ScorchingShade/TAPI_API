@@ -87,7 +87,7 @@ public class ReceiptModel {
 
     @Override
     public String toString() {
-        return "ReceiptModel{" +
+        return "{" +
                 "\"id\":\"" + id + '\"' +
                 ", \"name\":\"" + name + '\"' +
                 ", \"address\":\"" + address + '\"' +
