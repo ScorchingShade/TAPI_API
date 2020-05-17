@@ -13,6 +13,7 @@ public class GuiceInjector extends AbstractModule {
         bind(ReceiptCreateDao.class).to(ReceiptCreateDaoImpl.class).asEagerSingleton();
         bind(ReceiptReadDao.class).to(ReceiptReadDaoImpl.class).asEagerSingleton();
         bind(ReceiptDeleteDao.class).to(ReceiptDeleteDaoImpl.class).asEagerSingleton();
+        bind(ReceiptReadAllDao.class).to(ReceiptReadAllDaoImpl.class).asEagerSingleton();
 
     }
 }

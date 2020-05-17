@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.reddragon.dev.dao.ReceiptCreateDao;
 import com.reddragon.dev.dao.ReceiptDeleteDao;
+import com.reddragon.dev.dao.ReceiptReadAllDao;
 import com.reddragon.dev.dao.ReceiptReadDao;
 import com.reddragon.dev.guice.GuiceInjector;
 import com.reddragon.dev.repository.StoreRepo;
@@ -64,8 +65,39 @@ public class AppRouter extends AbstractVerticle {
         router.post("/deleteData").handler(BodyHandler.create());
         router.post("/deleteData").handler(this::deleteHandler);
 
+        //Handler for readAll ops
+        router.get("/fetchAll").handler(BodyHandler.create());
+        router.get("/fetchAll").handler(this::readAllHandler);
+
         server.requestHandler(router).listen(port);
 
+    }
+
+    /**
+     * FetchAll
+     * @param routingContext
+     */
+    private void readAllHandler(RoutingContext routingContext) {
+        //this is unnecessarily complicated code, reduce it later. see generate for reference
+
+        HttpServerResponse response = routingContext.response();
+        response.setChunked(true);
+        response.putHeader("content-type", "text/plain");
+        List<String> mongoResponse =new ArrayList<>();
+
+        JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
+
+        JsonObject fetchedDocument = jsonElement.getAsJsonObject();
+
+        try {
+            Injector injector = Guice.createInjector(new GuiceInjector());
+            ReceiptReadAllDao receiptCreateDao = injector.getInstance(ReceiptReadAllDao.class);
+            this.mongoResponse=receiptCreateDao.fetchAll(storeRepo).toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.end((this.mongoResponse));
     }
 
     /***
