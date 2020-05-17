@@ -9,6 +9,7 @@ public class ReceiptReadAllDaoImpl implements ReceiptReadAllDao {
     @Override
     public List<ReceiptModel> fetchAll(StoreRepo storeRepo) {
         try {
+            System.out.println("Data found "+storeRepo.findAll().toString());
             return storeRepo.findAll();
         } catch (Exception e) {
             System.out.println("No data found");

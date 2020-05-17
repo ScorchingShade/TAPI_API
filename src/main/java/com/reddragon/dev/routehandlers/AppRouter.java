@@ -107,20 +107,24 @@ public class AppRouter extends AbstractVerticle {
         HttpServerResponse response = routingContext.response();
         response.setChunked(true);
         response.putHeader("content-type", "text/plain");
+        response.putHeader("Access-Control-Allow-Origin", "*");
         List<String> mongoResponse =new ArrayList<>();
 
-        JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
+    /*    JsonElement jsonElement = new JsonParser().parse(routingContext.getBodyAsString());
 
         JsonObject fetchedDocument = jsonElement.getAsJsonObject();
-
+*/
         try {
-            Injector injector = Guice.createInjector(new GuiceInjector());
-            ReceiptReadAllDao receiptCreateDao = injector.getInstance(ReceiptReadAllDao.class);
-            this.mongoResponse=receiptCreateDao.fetchAll(storeRepo).toString();
+           /* Injector injector = Guice.createInjector(new GuiceInjector());
+            ReceiptReadAllDao receiptCreateDao = injector.getInstance(ReceiptReadAllDao.class);*/
+            //this.mongoResponse=receiptCreateDao.fetchAll(storeRepo).toString();
+
+            this.mongoResponse=storeRepo.findAll().toString();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //System.out.println("here is response "+this.mongoResponse);
         response.end((this.mongoResponse));
     }
 
@@ -193,9 +197,9 @@ public class AppRouter extends AbstractVerticle {
     private void generateHandler(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
         response.setChunked(true);
-        response.putHeader("content-type", "application/json");
+        response.putHeader("content-type", "text/plain");
         response.putHeader("'Access-Control-Allow-Origin", "*");
-        response.putHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+        //response.putHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 
         /*System.out.println("Hello World from Vert.x-Web! " + routingContext.getBodyAsString());*/
 
