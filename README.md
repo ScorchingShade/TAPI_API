@@ -2,6 +2,16 @@
 TAPI API or "The Asynchronous Point Integrator" API is a web-based Vert.x API aimed at providing receipting solutions. It uses MongoDB cloud cluster to create seamless db connectivity experience.
 TAPI API uses vert.x technology coupled with spring boot architecture to give you fast, scalable, concurrent and reliable experience.
 
+
+---
+
+## “fetchAll” API call: 
+`A get call to fetch all data in mongoDB collection. 
+`
+
+---
+
+
 ---
 
 ## “fetchData” API call: 
@@ -27,6 +37,7 @@ The format for the post data needs to be as:
 }`
 
 ---
+
 
 ## “generate” API call:
 `The generate API is configured to send the data in a post-call to the TAPI API service.
