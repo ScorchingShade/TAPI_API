@@ -153,9 +153,10 @@ public class AppRouter extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.end("----json fetched ----<<" + mongoResponse);
+        //response.end("----json fetched ----<<" + mongoResponse);
 
-        response.end(mongoResponse);
+        //response.end(mongoResponse);
+        response.end("{\"status\":\"success\"}");
     }
 
 
@@ -184,7 +185,7 @@ public class AppRouter extends AbstractVerticle {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.end("----json fetched ----<<" + mongoResponse);
+        //response.end(mongoResponse);
 
         response.end(mongoResponse.toString());
     }
